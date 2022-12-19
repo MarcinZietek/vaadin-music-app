@@ -13,7 +13,7 @@ public class Album extends AbstractEntity{
 
     private String title;
 
-    private LocalDate releasedDate;
+    private String releasedDate;
 
     private String region;
 
@@ -36,11 +36,11 @@ public class Album extends AbstractEntity{
         this.title = title;
     }
 
-    public LocalDate getReleasedDate() {
+    public String getReleasedDate() {
         return releasedDate;
     }
 
-    public void setReleasedDate(LocalDate releasedDate) {
+    public void setReleasedDate(String releasedDate) {
         this.releasedDate = releasedDate;
     }
 
@@ -75,4 +75,6 @@ public class Album extends AbstractEntity{
     public void setPerformerList(List<Performer> performerList) {
         this.performerList = performerList;
     }
+
+
 }

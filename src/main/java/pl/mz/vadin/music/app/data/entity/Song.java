@@ -55,4 +55,12 @@ public class Song extends AbstractEntity{
     public void setPublisherList(List<Publisher> publisherList) {
         this.publisherList = publisherList;
     }
+
+    public List<Album> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(List<Album> albums) {
+        this.albums = albums;
+    }
 }
