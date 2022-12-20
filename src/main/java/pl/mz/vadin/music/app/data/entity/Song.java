@@ -8,6 +8,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -21,8 +22,11 @@ public class Song extends AbstractEntity{
     @ManyToMany
     private List<Publisher> publisherList = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "albumsTracks")
-    private List<Album> albums = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "albums_tracks",
+    joinColumns = @JoinColumn (name= "song_id"),
+    inverseJoinColumns = @JoinColumn(name = "album_id"))
+    private Set<Album> albums;
 
     public String getTitle() {
         return title;
@@ -56,11 +60,11 @@ public class Song extends AbstractEntity{
         this.publisherList = publisherList;
     }
 
-    public List<Album> getAlbums() {
+    public Set<Album> getAlbums() {
         return albums;
     }
 
-    public void setAlbums(List<Album> albums) {
+    public void setAlbums(Set<Album> albums) {
         this.albums = albums;
     }
 }
