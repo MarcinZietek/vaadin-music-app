@@ -8,14 +8,19 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.entity.Song;
 import pl.mz.vadin.music.app.data.service.SongListService;
 
-@Route (value = "/songs")
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.stream.Collectors;
+
+@Route (value = "")
 @PageTitle("Songs")
 public class SongListView extends VerticalLayout {
 
-    Grid<Song> grid = new Grid<>(Song.class);
+    Grid<Album> grid = new Grid<>(Album.class);
     TextField filterText = new TextField();
     SongListService songListService;
 
@@ -33,10 +38,10 @@ public class SongListView extends VerticalLayout {
     private void configureGrid(){
         grid.addClassName("song-grid");
         grid.setSizeFull();
-        grid.setColumns("title", "duration");
+        grid.setColumns("title", "releasedDate", "region");
 //        grid.addColumn(song -> song.getTitle()).setHeader("Title");
-//        grid.addColumn(song -> song.getAlbum()).setHeader("Album Name");
-//        grid.addColumn(song -> song.getProducerList()).setHeader("Producer");
+        grid.addColumn(album -> album.getPublisher().getName()).setHeader("Publisher");
+        grid.addColumn(album -> album.getAlbumsTracks()).setHeader("Song");
 //        grid.addColumn(publisher -> publisher.getPublisherList()).setHeader("Publisher");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
     }
@@ -55,6 +60,6 @@ public class SongListView extends VerticalLayout {
     }
 
     private void updateList() {
-        grid.setItems(songListService.findAllSongs(filterText.getValue()));
+        grid.setItems(songListService.findAllAlbums(filterText.getValue()));
     }
 }

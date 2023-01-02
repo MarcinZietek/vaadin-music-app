@@ -30,8 +30,8 @@ insert into song values (17, 3.04, 'Home');
 insert into song values (18, 4.16, 'Warrior');
 
 -- -- # Albums
-insert into album values (1, 'Vows', '2011-08-29', 'Australia/New Zealand', 1);
-insert into album values (2, 'Vows', '2012-05-22', 'North America/European', 1);
+insert into album values (1, 'Australia / New Zealand', '2011-08-29', 'Vows', 1);
+insert into album values (2, 'North America / European', '2012-05-22', 'Vows', 1);
 
 -- -- # Albums / Tracks
 insert into albums_tracks (album_id, song_id) values (1,1);

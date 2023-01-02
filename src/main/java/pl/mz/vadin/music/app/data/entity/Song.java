@@ -1,11 +1,6 @@
 package pl.mz.vadin.music.app.data.entity;
 
-import lombok.Data;
-
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +14,7 @@ public class Song extends AbstractEntity{
 
     @ManyToMany
     private List<Producer> producerList = new ArrayList<>();
+
     @ManyToMany
     private List<Publisher> publisherList = new ArrayList<>();
 
@@ -27,6 +23,11 @@ public class Song extends AbstractEntity{
     joinColumns = @JoinColumn (name= "song_id"),
     inverseJoinColumns = @JoinColumn(name = "album_id"))
     private Set<Album> albums;
+
+    @Override
+    public String toString() {
+        return title + " - " + duration;
+    }
 
     public String getTitle() {
         return title;
@@ -44,21 +45,21 @@ public class Song extends AbstractEntity{
         this.duration = duration;
     }
 
-    public List<Producer> getProducerList() {
-        return producerList;
-    }
+//    public List<Producer> getProducerList() {
+//        return producerList;
+//    }
+//
+//    public void setProducerList(List<Producer> producerList) {
+//        this.producerList = producerList;
+//    }
 
-    public void setProducerList(List<Producer> producerList) {
-        this.producerList = producerList;
-    }
-
-    public List<Publisher> getPublisherList() {
-        return publisherList;
-    }
-
-    public void setPublisherList(List<Publisher> publisherList) {
-        this.publisherList = publisherList;
-    }
+//    public List<Publisher> getPublisherList() {
+//        return publisherList;
+//    }
+//
+//    public void setPublisherList(List<Publisher> publisherList) {
+//        this.publisherList = publisherList;
+//    }
 
     public Set<Album> getAlbums() {
         return albums;

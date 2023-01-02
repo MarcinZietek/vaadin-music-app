@@ -18,7 +18,7 @@ public class Album extends AbstractEntity{
 
     private String region;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "albums_tracks", joinColumns = @JoinColumn(name = "album_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id") )
     private Set<Song> albumsTracks;
@@ -26,7 +26,7 @@ public class Album extends AbstractEntity{
     @ManyToOne
     private Publisher publisher;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Performer> performerList = new ArrayList<>();
 
     public String getTitle() {

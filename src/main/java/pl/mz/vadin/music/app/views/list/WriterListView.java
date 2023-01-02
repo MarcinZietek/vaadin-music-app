@@ -11,7 +11,7 @@ import com.vaadin.flow.router.Route;
 import pl.mz.vadin.music.app.data.entity.Writer;
 import pl.mz.vadin.music.app.data.service.WriterServiceImpl;
 
-@Route(value = "")
+@Route(value = "/writers")
 @PageTitle("Writers")
 public class WriterListView extends VerticalLayout {
 

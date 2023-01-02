@@ -30,16 +30,16 @@ public class SongListService {
         this.songRepository = songRepository;
     }
 
-    public List<Song> findAllSongs(String stringFilter){
-        if(stringFilter == null || stringFilter.isEmpty()){
+    public List<Song> findAllSongs(){
             return songRepository.findAll();
-        }else {
-            return songRepository.search(stringFilter);
-        }
     }
 
-    public List<Album> findAllAlbums(){
-        return albumRepository.findAll();
+    public List<Album> findAllAlbums(String stringFilter){
+        if (stringFilter == null || stringFilter.isEmpty()) {
+            return albumRepository.findAll();
+        }else {
+            return albumRepository.search(stringFilter);
+        }
     }
 
     public List<Producer> findAllProducers(){
