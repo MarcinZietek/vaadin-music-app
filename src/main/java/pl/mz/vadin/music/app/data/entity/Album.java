@@ -3,6 +3,7 @@ package pl.mz.vadin.music.app.data.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Entity
 public class Album extends AbstractEntity{
 
+    @NotEmpty
     private String title;
 
     private LocalDate releasedDate;

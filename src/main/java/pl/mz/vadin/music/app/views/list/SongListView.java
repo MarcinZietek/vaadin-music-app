@@ -10,13 +10,9 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import pl.mz.vadin.music.app.data.entity.Album;
-import pl.mz.vadin.music.app.data.entity.Song;
 import pl.mz.vadin.music.app.data.service.SongListService;
 
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.stream.Collectors;
 
 @Route (value = "")
 @PageTitle("Songs")
@@ -37,6 +33,7 @@ public class SongListView extends VerticalLayout {
 
         add(getToolbar(), getContent());
         updateList();
+        closeEditor();
     }
 
     private Component getContent() {
@@ -60,6 +57,9 @@ public class SongListView extends VerticalLayout {
         grid.addColumn(album -> album.getPublisher().getName()).setHeader("Publisher");
         grid.addColumn(album -> album.getAlbumsTracks()).setHeader("Song");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
+
+        grid.asSingleSelect().addValueChangeListener(event ->
+                editAlbum(event.getValue()));
     }
 
     private HorizontalLayout getToolbar() {
@@ -68,11 +68,32 @@ public class SongListView extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addContactButton = new Button("Add song");
+        Button addAlbumButton = new Button("Add song");
+        addAlbumButton.addClickListener(click -> addAlbum());
 
-        HorizontalLayout toolbar = new HorizontalLayout(filterText, addContactButton);
+        HorizontalLayout toolbar = new HorizontalLayout(filterText, addAlbumButton);
         toolbar.addClassName("toolbar");
         return toolbar;
+    }
+
+    public void editAlbum(Album album){
+        if (album == null){
+            closeEditor();
+        } else {
+          form.setAlbum(album);
+          form.setVisible(true);
+        }
+    }
+
+    private void closeEditor(){
+        form.setAlbum(null);
+        form.setVisible(false);
+        removeClassName("editing");
+    }
+
+    private void addAlbum(){
+        grid.asSingleSelect().clear();
+        editAlbum(new Album());
     }
 
     private void updateList() {
