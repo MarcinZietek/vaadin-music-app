@@ -1,5 +1,6 @@
 package pl.mz.vadin.music.app.views.list;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -12,6 +13,7 @@ import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.entity.Song;
 import pl.mz.vadin.music.app.data.service.SongListService;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -24,25 +26,39 @@ public class SongListView extends VerticalLayout {
     TextField filterText = new TextField();
     SongListService songListService;
 
+    Form form;
+
     public SongListView(SongListService songListService) {
         this.songListService = songListService;
         addClassName("song-list-view");
         setSizeFull();
         configureGrid();
+        configureForm();
 
-        add(getToolbar(), grid);
+        add(getToolbar(), getContent());
         updateList();
     }
 
+    private Component getContent() {
+        HorizontalLayout content = new HorizontalLayout(grid, form);
+        content.setFlexGrow(2, grid);
+        content.setFlexGrow(1, form);
+        content.addClassNames("content");
+        content.setSizeFull();
+        return content;
+    }
+
+    private void configureForm() {
+        form = new Form(Collections.emptyList());
+        form.setWidth("25em");
+    }
 
     private void configureGrid(){
         grid.addClassName("song-grid");
         grid.setSizeFull();
         grid.setColumns("title", "releasedDate", "region");
-//        grid.addColumn(song -> song.getTitle()).setHeader("Title");
         grid.addColumn(album -> album.getPublisher().getName()).setHeader("Publisher");
         grid.addColumn(album -> album.getAlbumsTracks()).setHeader("Song");
-//        grid.addColumn(publisher -> publisher.getPublisherList()).setHeader("Publisher");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
     }
 

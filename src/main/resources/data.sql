@@ -1,6 +1,9 @@
 
 -- # Publisher
 insert into publisher values (1, 'Warner Bros. Records');
+insert into publisher values (2, 'Sony Records');
+insert into publisher values (3, 'EMI / Parlophone');
+insert into publisher values (4, 'Hollywood');
 
 -- # Performers
 insert into performer values (1,'null', 'null', 'Kimbra');
@@ -32,6 +35,8 @@ insert into song values (18, 4.16, 'Warrior');
 -- -- # Albums
 insert into album values (1, 'Australia / New Zealand', '2011-08-29', 'Vows', 1);
 insert into album values (2, 'North America / European', '2012-05-22', 'Vows', 1);
+insert into album values (3, 'UK / European', '1975-11-21', 'A Night At The Opera ', 3);
+insert into album values (4, 'North America', '1975-12-2', 'A Night At The Opera', 4);
 
 -- -- # Albums / Tracks
 insert into albums_tracks (album_id, song_id) values (1,1);

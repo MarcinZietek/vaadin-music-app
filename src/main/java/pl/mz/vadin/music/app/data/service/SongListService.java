@@ -42,6 +42,22 @@ public class SongListService {
         }
     }
 
+    public long countAlbums(){
+        return albumRepository.count();
+    }
+
+    public void deleteSong(Song song){
+        songRepository.delete(song);
+    }
+
+    public void saveSong(Song song){
+        if(song == null){
+            System.err.println("Song is null");
+            return;
+        }
+        songRepository.save(song);
+    }
+
     public List<Producer> findAllProducers(){
         return producerRepository.findAll();
     }
