@@ -46,8 +46,23 @@ public class SongListView extends VerticalLayout {
     }
 
     private void configureForm() {
-        form = new Form(Collections.emptyList());
+        form = new Form(songListService.findAllPublishers());
         form.setWidth("25em");
+        form.addListener(Form.SaveEvent.class, this::saveAlbum);
+        form.addListener(Form.DeleteEvent.class, this::deleteAlbum);
+        form.addListener(Form.CloseEvent.class, e -> closeEditor());
+    }
+
+    private void saveAlbum(Form.SaveEvent event){
+        songListService.saveAlbum(event.getAlbum());
+        updateList();
+        closeEditor();
+    }
+
+    private void deleteAlbum(Form.DeleteEvent event){
+        songListService.deleteAlbum(event.getAlbum());
+        updateList();
+        closeEditor();
     }
 
     private void configureGrid(){

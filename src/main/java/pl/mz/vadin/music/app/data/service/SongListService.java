@@ -46,16 +46,16 @@ public class SongListService {
         return albumRepository.count();
     }
 
-    public void deleteSong(Song song){
-        songRepository.delete(song);
+    public void deleteAlbum(Album album){
+        albumRepository.delete(album);
     }
 
-    public void saveSong(Song song){
-        if(song == null){
-            System.err.println("Song is null");
+    public void saveAlbum(Album album){
+        if(album == null){
+            System.err.println("Album is null");
             return;
         }
-        songRepository.save(song);
+        albumRepository.save(album);
     }
 
     public List<Producer> findAllProducers(){
