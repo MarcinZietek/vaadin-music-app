@@ -4,11 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.entity.Writer;
-import pl.mz.vadin.music.app.data.repository.WriterRepository;
-import pl.mz.vadin.music.app.data.service.WriterServiceImpl;
+import pl.mz.vadin.music.app.data.repository.AlbumRepository;
 
 import java.util.UUID;
 
@@ -21,50 +20,53 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DataIntegrationTest {
 
     @Autowired
-    WriterRepository writerRepository;
+    AlbumRepository albumRepository;
 
     @Test
     void testDeleteWriter(){
-        Writer writer = new Writer();
-        writer.setName("Moniuszko");
+        Album album = new Album();
+        album.setTitle("Moniuszko");
 
-        Writer saved = writerRepository.save(writer);
-        writerRepository.deleteById(saved.getId());
+        Album saved = albumRepository.save(album);
+        albumRepository.deleteById(saved.getId());
 
         assertThrows(JpaObjectRetrievalFailureException.class, () -> {
-            Writer deleted = writerRepository.getById(saved.getId());
+            Album deleted = albumRepository.getById(saved.getId());
         });
 
     }
 
     @Test
-    void testSaveWriter(){
-        Writer writer = new Writer();
-        writer.setName("Chopin");
-        Writer saved = writerRepository.save(writer);
+    void testSaveAlbum(){
+        Album album = new Album();
+        album.setTitle("Chopin");
+        Album saved = albumRepository.save(album);
         assertThat(saved).isNotNull();
     }
 
     @Test
     void testUpdateWriter(){
-        Writer writer = new Writer();
-        writer.setName("Moniuszko");
-        Writer saved = writerRepository.save(writer);
-        saved.setName("Chopin");
-        Writer updated = writerRepository.save(saved);
-        assertThat(updated.getName()).isEqualTo("Chopin");
+        Album album = new Album();
+        album.setTitle("Moniuszko");
+        Album saved = albumRepository.save(album);
+        saved.setTitle("Chopin");
+        Album updated = albumRepository.save(saved);
+        assertThat(updated.getTitle()).isEqualTo("Chopin");
     }
 
     @Test
     void testGetWriter(){
-        Writer writer = writerRepository.getById(1L);
+        Album album = albumRepository.getById(UUID.randomUUID());
 
-        assertThat(writer).isNotNull();
+        assertThat(album).isNotNull();
     }
 
     @Test
-    void testGetWriterByName(){
-        Writer writer = writerRepository.findByName("Moniuszko");
-        assertThat(writer).isNotNull();
+    void testGetWriterByNameNotFound(){
+        Album album = new Album();
+        album.setTitle("Moniuszko");
+        albumRepository.save(album);
+        album = albumRepository.findByTitle("Moniuszko");
+        assertThat(album).isNotNull();
     }
 }

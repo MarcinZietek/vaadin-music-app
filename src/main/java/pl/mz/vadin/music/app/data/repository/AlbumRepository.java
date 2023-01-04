@@ -15,4 +15,6 @@ public interface AlbumRepository extends JpaRepository<Album, UUID> {
 
     @Query("select a from Album a where lower(a.title) like lower(concat('%', :searchTerm, '%')) ")
     List<Album> search(@Param("searchTerm") String searchTerm);
+
+    Album findByTitle (String name);
 }
