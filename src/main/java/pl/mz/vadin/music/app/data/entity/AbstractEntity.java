@@ -1,6 +1,5 @@
 package pl.mz.vadin.music.app.data.entity;
 
-import lombok.Data;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.GeneratedValue;

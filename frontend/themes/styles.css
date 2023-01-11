@@ -3,4 +3,8 @@
     .list-view.editing .contact-grid {
         display: none;
     }
+    a[highlight] {
+        font-weight: bold;
+        text-decoration: underline;
+    }
 }

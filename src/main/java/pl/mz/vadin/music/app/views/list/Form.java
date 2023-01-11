@@ -15,17 +15,20 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.entity.Publisher;
+import pl.mz.vadin.music.app.data.entity.Song;
 
 import java.util.List;
 
 public class Form extends FormLayout {
 
     private Album album;
+    private Song song;
     TextField title = new TextField("Album Title");
     TextField region = new TextField("Album Region");
     ComboBox<Publisher> publisher = new ComboBox<>("Album Publisher");
 
     Binder<Album> binder = new BeanValidationBinder<>(Album.class);
+    Binder<Song> binder1 = new BeanValidationBinder<>(Song.class);
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -48,7 +51,6 @@ public class Form extends FormLayout {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         delete.addThemeVariants((ButtonVariant.LUMO_ERROR));
         close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-
         save.addClickShortcut(Key.ENTER);
         close.addClickShortcut(Key.ESCAPE);
 

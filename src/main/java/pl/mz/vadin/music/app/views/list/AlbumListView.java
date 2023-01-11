@@ -2,6 +2,7 @@ package pl.mz.vadin.music.app.views.list;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -12,11 +13,10 @@ import com.vaadin.flow.router.Route;
 import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.service.SongListService;
 
-import java.util.Collections;
-
-@Route (value = "")
-@PageTitle("Songs")
-public class SongListView extends VerticalLayout {
+@Route (value = "", layout = MainView.class)
+@PageTitle("Albums")
+@CssImport("./themes/styles.css")
+public class AlbumListView extends VerticalLayout {
 
     Grid<Album> grid = new Grid<>(Album.class);
     TextField filterText = new TextField();
@@ -24,7 +24,7 @@ public class SongListView extends VerticalLayout {
 
     Form form;
 
-    public SongListView(SongListService songListService) {
+    public AlbumListView(SongListService songListService) {
         this.songListService = songListService;
         addClassName("song-list-view");
         setSizeFull();
@@ -83,7 +83,7 @@ public class SongListView extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addAlbumButton = new Button("Add song");
+        Button addAlbumButton = new Button("Add Album");
         addAlbumButton.addClickListener(click -> addAlbum());
 
         HorizontalLayout toolbar = new HorizontalLayout(filterText, addAlbumButton);
