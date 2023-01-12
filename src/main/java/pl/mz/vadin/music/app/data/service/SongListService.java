@@ -30,39 +30,40 @@ public class SongListService {
         this.songRepository = songRepository;
     }
 
-    public List<Song> findAllSongs(){
-            return songRepository.findAll();
+    public List<Song> findAllSongs() {
+        return songRepository.findAll();
     }
 
-    public List<Album> findAllAlbums(String stringFilter){
+    public List<Album> findAllAlbums(String stringFilter) {
         if (stringFilter == null || stringFilter.isEmpty()) {
             return albumRepository.findAll();
-        }else {
+        } else {
             return albumRepository.search(stringFilter);
         }
     }
 
-    public long countAlbums(){
+    public long countAlbums() {
         return albumRepository.count();
     }
 
-    public void deleteAlbum(Album album){
+    public void deleteAlbum(Album album) {
         albumRepository.delete(album);
     }
 
-    public void saveAlbum(Album album){
-        if(album == null){
+    public void saveAlbum(Album album) {
+        if (album == null) {
             System.err.println("Album is null");
             return;
         }
         albumRepository.save(album);
     }
 
-    public List<Producer> findAllProducers(){
+    public List<Producer> findAllProducers() {
         return producerRepository.findAll();
     }
 
-    public List<Publisher> findAllPublishers(){
+    public List<Publisher> findAllPublishers() {
         return publisherRepository.findAll();
     }
+
 }

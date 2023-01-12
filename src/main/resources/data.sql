@@ -33,10 +33,10 @@ insert into song values ('15d87411-5e30-4f5e-928e-caf2205a785e', 3.04, 'Home');
 insert into song values ('af5d1ecd-1c2d-48ef-a3a4-8a0e923d0d75', 4.16, 'Warrior');
 
 -- # Albums
-insert into album values ('48767ba4-a9a2-4c0b-9ce9-cf0c53e8e45e', 'Australia / New Zealand', '2011-08-29', 'Vows', '72b11cec-0080-496a-a3a9-92494007befb');
-insert into album values ('c58f8dd9-95dc-4d01-836b-4df6b37de527', 'North America / European', '2012-05-22', 'Vows', '72b11cec-0080-496a-a3a9-92494007befb');
-insert into album values ('8cf87de5-574d-44ab-bf7f-25dec35cca73', 'UK / European', '1975-11-21', 'A Night At The Opera ', 'd6c3fe4e-e7c9-4961-b7fe-9350242992e9');
-insert into album values ('2fb669ec-0659-49fb-af9f-e6f71ce8156f', 'North America', '1975-12-02', 'A Night At The Opera', '983b41a6-f1b6-4309-87df-5bfd2048392f');
+insert into album values ('48767ba4-a9a2-4c0b-9ce9-cf0c53e8e45e', 'ART_POP', 'Australia / New Zealand', '2011-08-29', 'Vows', '72b11cec-0080-496a-a3a9-92494007befb');
+insert into album values ('c58f8dd9-95dc-4d01-836b-4df6b37de527', 'ART_POP', 'North America / European', '2012-05-22', 'Vows', '72b11cec-0080-496a-a3a9-92494007befb');
+insert into album values ('8cf87de5-574d-44ab-bf7f-25dec35cca73', 'ROCK', 'UK / European', '1975-11-21', 'A Night At The Opera ', 'd6c3fe4e-e7c9-4961-b7fe-9350242992e9');
+insert into album values ('2fb669ec-0659-49fb-af9f-e6f71ce8156f', 'ROCK', 'North America', '1975-12-02', 'A Night At The Opera', '983b41a6-f1b6-4309-87df-5bfd2048392f');
 
 -- # Albums / Tracks
 insert into albums_tracks (album_id, song_id) values ('48767ba4-a9a2-4c0b-9ce9-cf0c53e8e45e', 'd3bbd40d-8394-4e1c-b516-7d7808a08534');

@@ -10,8 +10,12 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import pl.mz.vadin.music.app.data.domain.MusicGenre;
 import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.service.SongListService;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Route (value = "", layout = MainView.class)
 @PageTitle("Albums")
@@ -46,7 +50,7 @@ public class AlbumListView extends VerticalLayout {
     }
 
     private void configureForm() {
-        form = new Form(songListService.findAllPublishers());
+        form = new Form(songListService.findAllPublishers(), Arrays.stream(MusicGenre.values()).collect(Collectors.toList()));
         form.setWidth("25em");
         form.addListener(Form.SaveEvent.class, this::saveAlbum);
         form.addListener(Form.DeleteEvent.class, this::deleteAlbum);
@@ -70,7 +74,8 @@ public class AlbumListView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumns("title", "releasedDate", "region");
         grid.addColumn(album -> album.getPublisher().getName()).setHeader("Publisher");
-        grid.addColumn(album -> album.getAlbumsTracks()).setHeader("Song");
+        grid.addColumn(album -> album.getMusicGenre().getName()).setHeader("Music genre");
+//        grid.addColumn(album -> album.getAlbumsTracks()).setHeader("Song");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
 
         grid.asSingleSelect().addValueChangeListener(event ->

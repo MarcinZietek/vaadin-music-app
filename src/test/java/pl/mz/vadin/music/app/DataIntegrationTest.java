@@ -5,14 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import pl.mz.vadin.music.app.data.domain.MusicGenre;
 import pl.mz.vadin.music.app.data.entity.Album;
-import pl.mz.vadin.music.app.data.entity.Writer;
 import pl.mz.vadin.music.app.data.repository.AlbumRepository;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
@@ -40,6 +39,7 @@ public class DataIntegrationTest {
     void testSaveAlbum(){
         Album album = new Album();
         album.setTitle("Chopin");
+        album.setMusicGenre(MusicGenre.CLASSICAL);
         Album saved = albumRepository.save(album);
         assertThat(saved).isNotNull();
     }

@@ -13,37 +13,40 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
+import pl.mz.vadin.music.app.data.domain.MusicGenre;
 import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.entity.Publisher;
-import pl.mz.vadin.music.app.data.entity.Song;
 
 import java.util.List;
 
 public class Form extends FormLayout {
 
     private Album album;
-    private Song song;
     TextField title = new TextField("Album Title");
     TextField region = new TextField("Album Region");
     ComboBox<Publisher> publisher = new ComboBox<>("Album Publisher");
+    ComboBox<MusicGenre> musicGenre = new ComboBox<>("Music Genre");
 
     Binder<Album> binder = new BeanValidationBinder<>(Album.class);
-    Binder<Song> binder1 = new BeanValidationBinder<>(Song.class);
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
 
-    public Form(List<Publisher> publishers) {
+    public Form(List<Publisher> publishers, List<MusicGenre> musicGenres) {
         addClassName("song-form");
         binder.bindInstanceFields(this);
 
         publisher.setItems(publishers);
         publisher.setItemLabelGenerator(Publisher::getName);
 
+        musicGenre.setItems(musicGenres);
+        musicGenre.setItemLabelGenerator(MusicGenre::getName);
+
         add(title,
             region,
             publisher,
+            musicGenre,
             createButtonsLayout());
     }
 

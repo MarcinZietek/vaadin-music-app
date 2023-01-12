@@ -1,6 +1,6 @@
 package pl.mz.vadin.music.app.data.entity;
 
-import lombok.Data;
+import pl.mz.vadin.music.app.data.domain.MusicGenre;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 
 @Entity
-public class Album extends AbstractEntity{
+public class Album extends AbstractEntity {
 
     @NotEmpty
     private String title;
@@ -19,10 +19,12 @@ public class Album extends AbstractEntity{
     private LocalDate releasedDate;
 
     private String region;
+    @Enumerated(EnumType.STRING)
+    private MusicGenre musicGenre;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "albums_tracks", joinColumns = @JoinColumn(name = "album_id"),
-            inverseJoinColumns = @JoinColumn(name = "song_id") )
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
     private Set<Song> albumsTracks;
 
     @ManyToOne
@@ -55,6 +57,14 @@ public class Album extends AbstractEntity{
         this.region = region;
     }
 
+    public MusicGenre getMusicGenre() {
+        return musicGenre;
+    }
+
+    public void setMusicGenre(MusicGenre musicGenre) {
+        this.musicGenre = musicGenre;
+    }
+
     public Set<Song> getAlbumsTracks() {
         return albumsTracks;
     }
@@ -78,6 +88,4 @@ public class Album extends AbstractEntity{
     public void setPerformerList(List<Performer> performerList) {
         this.performerList = performerList;
     }
-
-
 }
