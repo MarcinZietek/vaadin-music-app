@@ -13,7 +13,7 @@ import pl.mz.vadin.music.app.data.repository.SongRepository;
 import java.util.List;
 
 @Service
-public class SongListService {
+public class MusicAppService {
 
     private final AlbumRepository albumRepository;
 
@@ -23,15 +23,19 @@ public class SongListService {
 
     private final SongRepository songRepository;
 
-    public SongListService(AlbumRepository albumRepository, ProducerRepository producerRepository, PublisherRepository publisherRepository, SongRepository songRepository) {
+    public MusicAppService(AlbumRepository albumRepository, ProducerRepository producerRepository, PublisherRepository publisherRepository, SongRepository songRepository) {
         this.albumRepository = albumRepository;
         this.producerRepository = producerRepository;
         this.publisherRepository = publisherRepository;
         this.songRepository = songRepository;
     }
 
-    public List<Song> findAllSongs() {
-        return songRepository.findAll();
+    public List<Song> findAllSongs(String stringFilter) {
+        if (stringFilter == null || stringFilter.isEmpty()){
+            return songRepository.findAll();
+        } else {
+            return songRepository.search(stringFilter);
+        }
     }
 
     public List<Album> findAllAlbums(String stringFilter) {
@@ -50,12 +54,24 @@ public class SongListService {
         albumRepository.delete(album);
     }
 
+    public void deleteSong(Song song) {
+        songRepository.delete(song);
+    }
+
     public void saveAlbum(Album album) {
         if (album == null) {
             System.err.println("Album is null");
             return;
         }
         albumRepository.save(album);
+    }
+
+    public void saveSong(Song song) {
+        if (song == null){
+            System.err.println("Song is null");
+            return;
+        }
+        songRepository.save(song);
     }
 
     public List<Producer> findAllProducers() {

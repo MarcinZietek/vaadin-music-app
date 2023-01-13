@@ -88,4 +88,9 @@ public class Album extends AbstractEntity {
     public void setPerformerList(List<Performer> performerList) {
         this.performerList = performerList;
     }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

@@ -16,18 +16,22 @@ import com.vaadin.flow.shared.Registration;
 import pl.mz.vadin.music.app.data.domain.MusicGenre;
 import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.entity.Publisher;
+import pl.mz.vadin.music.app.data.entity.Song;
 
 import java.util.List;
 
 public class Form extends FormLayout {
 
     private Album album;
+
+    private Song song;
     TextField title = new TextField("Album Title");
     TextField region = new TextField("Album Region");
     ComboBox<Publisher> publisher = new ComboBox<>("Album Publisher");
     ComboBox<MusicGenre> musicGenre = new ComboBox<>("Music Genre");
 
-    Binder<Album> binder = new BeanValidationBinder<>(Album.class);
+    Binder<Album> albumBinder = new BeanValidationBinder<>(Album.class);
+    Binder<Song> songBinder = new BeanValidationBinder<>(Song.class);
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -35,7 +39,8 @@ public class Form extends FormLayout {
 
     public Form(List<Publisher> publishers, List<MusicGenre> musicGenres) {
         addClassName("song-form");
-        binder.bindInstanceFields(this);
+        albumBinder.bindInstanceFields(this);
+        songBinder.bindInstanceFields(this);
 
         publisher.setItems(publishers);
         publisher.setItemLabelGenerator(Publisher::getName);
@@ -58,63 +63,102 @@ public class Form extends FormLayout {
         close.addClickShortcut(Key.ESCAPE);
 
         save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, album)));
-        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
+        delete.addClickListener(event -> fireEvent(new DeleteEventAlbum(this, album)));
+        close.addClickListener(event -> fireEvent(new CloseEventAlbum(this)));
 
-        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
+        delete.addClickListener(event -> fireEvent(new DeleteEventSong(this, song)));
+        close.addClickListener(event -> fireEvent(new CloseEventSong(this)));
+
+        albumBinder.addStatusChangeListener(e -> save.setEnabled(albumBinder.isValid()));
+        songBinder.addStatusChangeListener(e -> save.setEnabled(songBinder.isValid()));
 
         return new HorizontalLayout(save, delete, close);
     }
 
     private void validateAndSave(){
         try{
-            binder.writeBean(album);
-            fireEvent(new SaveEvent(this, album));
+            albumBinder.writeBean(album);
+            fireEvent(new SaveEventAlbum(this, album));
         }catch (ValidationException e){
             e.printStackTrace();
+        }
+        try {
+            songBinder.writeBean(song);
+            fireEvent(new SaveEventSong(this, song));
+        }catch (ValidationException ex){
+            ex.printStackTrace();
         }
     }
 
     public void setAlbum(Album album){
         this.album = album;
-        binder.readBean(album);
+        albumBinder.readBean(album);
     }
 
-
+    public void setSong(Song song){
+        this.song = song;
+        songBinder.readBean(song);
+    }
 
     public static abstract class FormEvent extends ComponentEvent<Form>{
         private Album album;
+        private Song song;
 
         protected FormEvent(Form source, Album album){
             super(source, false);
             this.album = album;
         }
+        protected FormEvent(Form source, Song song){
+            super(source, false);
+            this.song = song;
+        }
 
         public Album getAlbum() {
             return album;
         }
+
+        public Song getSong() { return song; }
     }
 
-    public static class SaveEvent extends FormEvent{
-        SaveEvent(Form source, Album album){
+    public static class SaveEventAlbum extends FormEvent{
+        SaveEventAlbum(Form source, Album album){
+            super(source, album);
+        }
+    }
+    public static class SaveEventSong extends FormEvent{
+        SaveEventSong(Form source, Song song){
+            super(source, song);
+        }
+    }
+
+    public static class DeleteEventAlbum extends FormEvent{
+        DeleteEventAlbum(Form source, Album album){
             super(source, album);
         }
     }
 
-    public static class DeleteEvent extends FormEvent{
-        DeleteEvent(Form source, Album album){
-            super(source, album);
+    public static class DeleteEventSong extends FormEvent{
+        DeleteEventSong(Form source, Song song){
+            super(source, song);
         }
     }
 
-    public static class CloseEvent extends FormEvent{
-        CloseEvent(Form source){
-            super(source, null);
+    public static class CloseEventAlbum extends FormEvent{
+        CloseEventAlbum(Form source){
+            super(source, (Album) null);
+        }
+    }
+
+    public static class CloseEventSong extends FormEvent{
+        CloseEventSong(Form source){
+            super(source, (Song) null);
         }
     }
 
     public <T extends ComponentEvent<?>>Registration addListener(Class<T> eventType, ComponentEventListener<T> listener){
         return getEventBus().addListener(eventType, listener);
     }
+
+
 
 }

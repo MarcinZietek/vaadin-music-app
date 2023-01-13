@@ -1,8 +1,8 @@
 package pl.mz.vadin.music.app.views.list;
 
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -11,26 +11,26 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import pl.mz.vadin.music.app.data.domain.MusicGenre;
-import pl.mz.vadin.music.app.data.entity.Album;
+import pl.mz.vadin.music.app.data.entity.Song;
 import pl.mz.vadin.music.app.data.service.MusicAppService;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-@Route (value = "", layout = MainView.class)
-@PageTitle("Albums")
-@CssImport("./themes/styles.css")
-public class AlbumListView extends VerticalLayout {
+@Route(value = "songs", layout = MainView.class)
+@PageTitle("List of Songs")
+public class SongListView extends VerticalLayout {
 
-    Grid<Album> grid = new Grid<>(Album.class);
+    Grid<Song> grid = new Grid<>(Song.class);
+
     TextField filterText = new TextField();
-    MusicAppService musicAppService;
+    private final MusicAppService musicAppService;
 
     Form form;
 
-    public AlbumListView(MusicAppService musicAppService) {
+    public SongListView(MusicAppService musicAppService) {
         this.musicAppService = musicAppService;
-        addClassName("song-list-view");
+        addClassName("songs-view");
         setSizeFull();
         configureGrid();
         configureForm();
@@ -52,70 +52,71 @@ public class AlbumListView extends VerticalLayout {
     private void configureForm() {
         form = new Form(musicAppService.findAllPublishers(), Arrays.stream(MusicGenre.values()).collect(Collectors.toList()));
         form.setWidth("25em");
-        form.addListener(Form.SaveEventAlbum.class, this::saveAlbum);
-        form.addListener(Form.DeleteEventAlbum.class, this::deleteAlbum);
-        form.addListener(Form.CloseEventAlbum.class, e -> closeEditor());
-    }
-
-    private void saveAlbum(Form.SaveEventAlbum event){
-        musicAppService.saveAlbum(event.getAlbum());
-        updateList();
-        closeEditor();
-    }
-
-    private void deleteAlbum(Form.DeleteEventAlbum event){
-        musicAppService.deleteAlbum(event.getAlbum());
-        updateList();
-        closeEditor();
+        form.addListener(Form.SaveEventSong.class, this::saveSong);
+        form.addListener(Form.DeleteEventSong.class, this::deleteSong);
+        form.addListener(Form.CloseEventSong.class, e -> closeEditor());
     }
 
     private void configureGrid(){
-        grid.addClassName("albums-grid");
+        grid.addClassName("songs-grid");
         grid.setSizeFull();
-        grid.setColumns("title", "releasedDate", "region");
-        grid.addColumn(album -> album.getPublisher().getName()).setHeader("Publisher");
-        grid.addColumn(album -> album.getMusicGenre().getName()).setHeader("Music genre");
+        grid.setColumns("title", "duration");
+        grid.addColumn(song -> song.getAlbums().toString()).setHeader("Album");
+//        grid.addColumn(song -> song.getMusicGenre()).setHeader("Music Genre");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
 
         grid.asSingleSelect().addValueChangeListener(event ->
-                editAlbum(event.getValue()));
+                editSong(event.getValue()));
     }
 
     private HorizontalLayout getToolbar() {
-        filterText.setPlaceholder("Filter by title...");
+        filterText.setPlaceholder("Filter song by title...");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addAlbumButton = new Button("Add Album");
-        addAlbumButton.addClickListener(click -> addAlbum());
+        Button addAlbumButton = new Button("Add Song");
+        addAlbumButton.addClickListener(click -> addSong());
 
         HorizontalLayout toolbar = new HorizontalLayout(filterText, addAlbumButton);
         toolbar.addClassName("toolbar");
         return toolbar;
     }
 
-    public void editAlbum(Album album){
-        if (album == null){
+    private void saveSong(Form.SaveEventSong event){
+        musicAppService.saveSong(event.getSong());
+        updateList();
+        closeEditor();
+    }
+
+    private void deleteSong(Form.DeleteEventSong event){
+        musicAppService.deleteSong(event.getSong());
+        updateList();
+        closeEditor();
+    }
+
+    public void editSong(Song song){
+        if (song == null){
             closeEditor();
         } else {
-          form.setAlbum(album);
-          form.setVisible(true);
+            form.setSong(song);
+            form.setVisible(true);
         }
     }
 
     private void closeEditor(){
-        form.setAlbum(null);
+        form.setSong(null);
         form.setVisible(false);
         removeClassName("editing");
     }
 
-    private void addAlbum(){
+    private void addSong(){
         grid.asSingleSelect().clear();
-        editAlbum(new Album());
+        editSong(new Song());
     }
 
     private void updateList() {
-        grid.setItems(musicAppService.findAllAlbums(filterText.getValue()));
+        grid.setItems(musicAppService.findAllSongs(filterText.getValue()));
     }
+
 }

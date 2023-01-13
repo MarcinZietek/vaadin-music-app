@@ -18,7 +18,7 @@ public class Song extends AbstractEntity{
     @ManyToMany
     private List<Publisher> publisherList = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "albums_tracks",
     joinColumns = @JoinColumn (name= "song_id"),
     inverseJoinColumns = @JoinColumn(name = "album_id"))

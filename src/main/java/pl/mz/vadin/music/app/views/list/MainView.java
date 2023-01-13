@@ -39,7 +39,8 @@ public class MainView extends AppLayout {
         listLink.setHighlightCondition(HighlightConditions.sameLocation());
 
         addToDrawer(new VerticalLayout(
-                listLink
+                listLink,
+                new RouterLink("Songs", SongListView.class)
         ));
     }
 
