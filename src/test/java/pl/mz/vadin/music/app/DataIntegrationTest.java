@@ -7,7 +7,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import pl.mz.vadin.music.app.data.domain.MusicGenre;
 import pl.mz.vadin.music.app.data.entity.Album;
+import pl.mz.vadin.music.app.data.entity.Song;
 import pl.mz.vadin.music.app.data.repository.AlbumRepository;
+import pl.mz.vadin.music.app.data.repository.SongRepository;
 
 import java.util.UUID;
 
@@ -20,6 +22,8 @@ public class DataIntegrationTest {
 
     @Autowired
     AlbumRepository albumRepository;
+    @Autowired
+    private SongRepository songRepository;
 
     @Test
     void testDeleteWriter(){
@@ -41,6 +45,15 @@ public class DataIntegrationTest {
         album.setTitle("Chopin");
         album.setMusicGenre(MusicGenre.CLASSICAL);
         Album saved = albumRepository.save(album);
+        assertThat(saved).isNotNull();
+    }
+
+    @Test
+    void testSaveSong(){
+        Song song = new Song();
+        song.setTitle("Nowa Piosenka");
+        song.setDuration(4.25F);
+        Song saved = songRepository.save(song);
         assertThat(saved).isNotNull();
     }
 

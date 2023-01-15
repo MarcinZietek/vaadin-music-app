@@ -25,7 +25,7 @@ public class Album extends AbstractEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "albums_tracks", joinColumns = @JoinColumn(name = "album_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private Set<Song> albumsTracks;
+    private Set<Song> songs;
 
     @ManyToOne
     private Publisher publisher;
@@ -65,12 +65,12 @@ public class Album extends AbstractEntity {
         this.musicGenre = musicGenre;
     }
 
-    public Set<Song> getAlbumsTracks() {
-        return albumsTracks;
+    public Set<Song> getSongs() {
+        return songs;
     }
 
-    public void setAlbumsTracks(Set<Song> albumsTracks) {
-        this.albumsTracks = albumsTracks;
+    public void setSongs(Set<Song> songs) {
+        this.songs = songs;
     }
 
     public Publisher getPublisher() {

@@ -45,22 +45,6 @@ public class Song extends AbstractEntity{
         this.duration = duration;
     }
 
-//    public List<Producer> getProducerList() {
-//        return producerList;
-//    }
-//
-//    public void setProducerList(List<Producer> producerList) {
-//        this.producerList = producerList;
-//    }
-
-//    public List<Publisher> getPublisherList() {
-//        return publisherList;
-//    }
-//
-//    public void setPublisherList(List<Publisher> publisherList) {
-//        this.publisherList = publisherList;
-//    }
-
     public Set<Album> getAlbums() {
         return albums;
     }
@@ -68,4 +52,21 @@ public class Song extends AbstractEntity{
     public void setAlbums(Set<Album> albums) {
         this.albums = albums;
     }
+
+    public List<Producer> getProducerList() {
+        return producerList;
+    }
+
+    public void setProducerList(List<Producer> producerList) {
+        this.producerList = producerList;
+    }
+
+    public List<Publisher> getPublisherList() {
+        return publisherList;
+    }
+
+    public void setPublisherList(List<Publisher> publisherList) {
+        this.publisherList = publisherList;
+    }
+
 }

@@ -38,6 +38,10 @@ public class MusicAppService {
         }
     }
 
+    public List<Album> findAlbums(){
+        return albumRepository.findAll();
+    }
+
     public List<Album> findAllAlbums(String stringFilter) {
         if (stringFilter == null || stringFilter.isEmpty()) {
             return albumRepository.findAll();

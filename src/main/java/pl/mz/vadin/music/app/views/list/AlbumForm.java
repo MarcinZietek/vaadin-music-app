@@ -16,31 +16,26 @@ import com.vaadin.flow.shared.Registration;
 import pl.mz.vadin.music.app.data.domain.MusicGenre;
 import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.entity.Publisher;
-import pl.mz.vadin.music.app.data.entity.Song;
 
 import java.util.List;
 
-public class Form extends FormLayout {
+public class AlbumForm extends FormLayout {
 
     private Album album;
 
-    private Song song;
     TextField title = new TextField("Album Title");
     TextField region = new TextField("Album Region");
     ComboBox<Publisher> publisher = new ComboBox<>("Album Publisher");
     ComboBox<MusicGenre> musicGenre = new ComboBox<>("Music Genre");
-
     Binder<Album> albumBinder = new BeanValidationBinder<>(Album.class);
-    Binder<Song> songBinder = new BeanValidationBinder<>(Song.class);
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
 
-    public Form(List<Publisher> publishers, List<MusicGenre> musicGenres) {
+    public AlbumForm(List<Publisher> publishers, List<MusicGenre> musicGenres) {
         addClassName("song-form");
         albumBinder.bindInstanceFields(this);
-        songBinder.bindInstanceFields(this);
 
         publisher.setItems(publishers);
         publisher.setItemLabelGenerator(Publisher::getName);
@@ -66,11 +61,7 @@ public class Form extends FormLayout {
         delete.addClickListener(event -> fireEvent(new DeleteEventAlbum(this, album)));
         close.addClickListener(event -> fireEvent(new CloseEventAlbum(this)));
 
-        delete.addClickListener(event -> fireEvent(new DeleteEventSong(this, song)));
-        close.addClickListener(event -> fireEvent(new CloseEventSong(this)));
-
         albumBinder.addStatusChangeListener(e -> save.setEnabled(albumBinder.isValid()));
-        songBinder.addStatusChangeListener(e -> save.setEnabled(songBinder.isValid()));
 
         return new HorizontalLayout(save, delete, close);
     }
@@ -82,12 +73,6 @@ public class Form extends FormLayout {
         }catch (ValidationException e){
             e.printStackTrace();
         }
-        try {
-            songBinder.writeBean(song);
-            fireEvent(new SaveEventSong(this, song));
-        }catch (ValidationException ex){
-            ex.printStackTrace();
-        }
     }
 
     public void setAlbum(Album album){
@@ -95,70 +80,40 @@ public class Form extends FormLayout {
         albumBinder.readBean(album);
     }
 
-    public void setSong(Song song){
-        this.song = song;
-        songBinder.readBean(song);
-    }
-
-    public static abstract class FormEvent extends ComponentEvent<Form>{
+    public static abstract class FormEvent extends ComponentEvent<AlbumForm>{
         private Album album;
-        private Song song;
 
-        protected FormEvent(Form source, Album album){
+        protected FormEvent(AlbumForm source, Album album){
             super(source, false);
             this.album = album;
-        }
-        protected FormEvent(Form source, Song song){
-            super(source, false);
-            this.song = song;
         }
 
         public Album getAlbum() {
             return album;
         }
 
-        public Song getSong() { return song; }
     }
 
     public static class SaveEventAlbum extends FormEvent{
-        SaveEventAlbum(Form source, Album album){
+        SaveEventAlbum(AlbumForm source, Album album){
             super(source, album);
-        }
-    }
-    public static class SaveEventSong extends FormEvent{
-        SaveEventSong(Form source, Song song){
-            super(source, song);
         }
     }
 
     public static class DeleteEventAlbum extends FormEvent{
-        DeleteEventAlbum(Form source, Album album){
+        DeleteEventAlbum(AlbumForm source, Album album){
             super(source, album);
         }
     }
 
-    public static class DeleteEventSong extends FormEvent{
-        DeleteEventSong(Form source, Song song){
-            super(source, song);
-        }
-    }
-
     public static class CloseEventAlbum extends FormEvent{
-        CloseEventAlbum(Form source){
-            super(source, (Album) null);
-        }
-    }
-
-    public static class CloseEventSong extends FormEvent{
-        CloseEventSong(Form source){
-            super(source, (Song) null);
+        CloseEventAlbum(AlbumForm source){
+            super(source, null);
         }
     }
 
     public <T extends ComponentEvent<?>>Registration addListener(Class<T> eventType, ComponentEventListener<T> listener){
         return getEventBus().addListener(eventType, listener);
     }
-
-
 
 }

@@ -14,4 +14,6 @@ public interface SongRepository extends JpaRepository<Song, UUID> {
 
     @Query("select s from Song s where lower(s.title) like lower(concat('%', :searchTerm, '%')) ")
     List<Song> search(@Param("searchTerm") String searchTerm);
+
+
 }

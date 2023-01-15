@@ -26,11 +26,11 @@ public class SongListView extends VerticalLayout {
     TextField filterText = new TextField();
     private final MusicAppService musicAppService;
 
-    Form form;
+    SongForm songForm;
 
     public SongListView(MusicAppService musicAppService) {
         this.musicAppService = musicAppService;
-        addClassName("songs-view");
+        addClassName("song-list-view");
         setSizeFull();
         configureGrid();
         configureForm();
@@ -41,20 +41,21 @@ public class SongListView extends VerticalLayout {
     }
 
     private Component getContent() {
-        HorizontalLayout content = new HorizontalLayout(grid, form);
+        HorizontalLayout content = new HorizontalLayout(grid, songForm);
         content.setFlexGrow(2, grid);
-        content.setFlexGrow(1, form);
-        content.addClassNames("content");
+        content.setFlexGrow(1, songForm);
+        content.addClassNames("song-content");
         content.setSizeFull();
         return content;
     }
 
     private void configureForm() {
-        form = new Form(musicAppService.findAllPublishers(), Arrays.stream(MusicGenre.values()).collect(Collectors.toList()));
-        form.setWidth("25em");
-        form.addListener(Form.SaveEventSong.class, this::saveSong);
-        form.addListener(Form.DeleteEventSong.class, this::deleteSong);
-        form.addListener(Form.CloseEventSong.class, e -> closeEditor());
+        songForm = new SongForm(musicAppService.findAlbums());
+
+        songForm.setWidth("25em");
+        songForm.addListener(SongForm.SaveEventSong.class, this::saveSong);
+        songForm.addListener(SongForm.DeleteEventSong.class, this::deleteSong);
+        songForm.addListener(SongForm.CloseEventSong.class, e -> closeEditor());
     }
 
     private void configureGrid(){
@@ -62,7 +63,6 @@ public class SongListView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumns("title", "duration");
         grid.addColumn(song -> song.getAlbums().toString()).setHeader("Album");
-//        grid.addColumn(song -> song.getMusicGenre()).setHeader("Music Genre");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
 
         grid.asSingleSelect().addValueChangeListener(event ->
@@ -83,13 +83,13 @@ public class SongListView extends VerticalLayout {
         return toolbar;
     }
 
-    private void saveSong(Form.SaveEventSong event){
+    private void saveSong(SongForm.SaveEventSong event){
         musicAppService.saveSong(event.getSong());
         updateList();
         closeEditor();
     }
 
-    private void deleteSong(Form.DeleteEventSong event){
+    private void deleteSong(SongForm.DeleteEventSong event){
         musicAppService.deleteSong(event.getSong());
         updateList();
         closeEditor();
@@ -99,14 +99,14 @@ public class SongListView extends VerticalLayout {
         if (song == null){
             closeEditor();
         } else {
-            form.setSong(song);
-            form.setVisible(true);
+            songForm.setSong(song);
+            songForm.setVisible(true);
         }
     }
 
     private void closeEditor(){
-        form.setSong(null);
-        form.setVisible(false);
+        songForm.setSong(null);
+        songForm.setVisible(false);
         removeClassName("editing");
     }
 

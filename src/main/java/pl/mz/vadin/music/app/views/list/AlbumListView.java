@@ -26,11 +26,11 @@ public class AlbumListView extends VerticalLayout {
     TextField filterText = new TextField();
     MusicAppService musicAppService;
 
-    Form form;
+    AlbumForm albumForm;
 
     public AlbumListView(MusicAppService musicAppService) {
         this.musicAppService = musicAppService;
-        addClassName("song-list-view");
+        addClassName("album-list-view");
         setSizeFull();
         configureGrid();
         configureForm();
@@ -41,29 +41,29 @@ public class AlbumListView extends VerticalLayout {
     }
 
     private Component getContent() {
-        HorizontalLayout content = new HorizontalLayout(grid, form);
+        HorizontalLayout content = new HorizontalLayout(grid, albumForm);
         content.setFlexGrow(2, grid);
-        content.setFlexGrow(1, form);
-        content.addClassNames("content");
+        content.setFlexGrow(1, albumForm);
+        content.addClassNames("album-content");
         content.setSizeFull();
         return content;
     }
 
     private void configureForm() {
-        form = new Form(musicAppService.findAllPublishers(), Arrays.stream(MusicGenre.values()).collect(Collectors.toList()));
-        form.setWidth("25em");
-        form.addListener(Form.SaveEventAlbum.class, this::saveAlbum);
-        form.addListener(Form.DeleteEventAlbum.class, this::deleteAlbum);
-        form.addListener(Form.CloseEventAlbum.class, e -> closeEditor());
+        albumForm = new AlbumForm(musicAppService.findAllPublishers(), Arrays.stream(MusicGenre.values()).collect(Collectors.toList()));
+        albumForm.setWidth("25em");
+        albumForm.addListener(AlbumForm.SaveEventAlbum.class, this::saveAlbum);
+        albumForm.addListener(AlbumForm.DeleteEventAlbum.class, this::deleteAlbum);
+        albumForm.addListener(AlbumForm.CloseEventAlbum.class, e -> closeEditor());
     }
 
-    private void saveAlbum(Form.SaveEventAlbum event){
+    private void saveAlbum(AlbumForm.SaveEventAlbum event){
         musicAppService.saveAlbum(event.getAlbum());
         updateList();
         closeEditor();
     }
 
-    private void deleteAlbum(Form.DeleteEventAlbum event){
+    private void deleteAlbum(AlbumForm.DeleteEventAlbum event){
         musicAppService.deleteAlbum(event.getAlbum());
         updateList();
         closeEditor();
@@ -99,14 +99,14 @@ public class AlbumListView extends VerticalLayout {
         if (album == null){
             closeEditor();
         } else {
-          form.setAlbum(album);
-          form.setVisible(true);
+          albumForm.setAlbum(album);
+          albumForm.setVisible(true);
         }
     }
 
     private void closeEditor(){
-        form.setAlbum(null);
-        form.setVisible(false);
+        albumForm.setAlbum(null);
+        albumForm.setVisible(false);
         removeClassName("editing");
     }
 
