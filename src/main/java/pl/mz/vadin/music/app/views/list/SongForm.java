@@ -6,6 +6,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -16,12 +17,13 @@ import com.vaadin.flow.shared.Registration;
 import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.entity.Song;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SongForm extends FormLayout {
 
     private Song song;
-
 
     TextField title = new TextField("Song Title");
     TextField duration = new TextField("Song Duration");

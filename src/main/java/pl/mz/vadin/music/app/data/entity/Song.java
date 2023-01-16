@@ -2,6 +2,7 @@ package pl.mz.vadin.music.app.data.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -45,14 +46,6 @@ public class Song extends AbstractEntity{
         this.duration = duration;
     }
 
-    public Set<Album> getAlbums() {
-        return albums;
-    }
-
-    public void setAlbums(Set<Album> albums) {
-        this.albums = albums;
-    }
-
     public List<Producer> getProducerList() {
         return producerList;
     }
@@ -69,4 +62,11 @@ public class Song extends AbstractEntity{
         this.publisherList = publisherList;
     }
 
+    public Set<Album> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(Set<Album> albums) {
+        this.albums = albums;
+    }
 }

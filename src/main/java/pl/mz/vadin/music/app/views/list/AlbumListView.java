@@ -101,6 +101,7 @@ public class AlbumListView extends VerticalLayout {
         } else {
           albumForm.setAlbum(album);
           albumForm.setVisible(true);
+          addClassName("editing");
         }
     }
 

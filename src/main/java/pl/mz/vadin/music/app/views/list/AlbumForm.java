@@ -16,6 +16,7 @@ import com.vaadin.flow.shared.Registration;
 import pl.mz.vadin.music.app.data.domain.MusicGenre;
 import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.entity.Publisher;
+import com.vaadin.flow.component.datepicker.DatePicker;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class AlbumForm extends FormLayout {
     TextField region = new TextField("Album Region");
     ComboBox<Publisher> publisher = new ComboBox<>("Album Publisher");
     ComboBox<MusicGenre> musicGenre = new ComboBox<>("Music Genre");
+    DatePicker releasedDate = new DatePicker("Released Date");
     Binder<Album> albumBinder = new BeanValidationBinder<>(Album.class);
 
     Button save = new Button("Save");
@@ -45,6 +47,7 @@ public class AlbumForm extends FormLayout {
 
         add(title,
             region,
+            releasedDate,
             publisher,
             musicGenre,
             createButtonsLayout());

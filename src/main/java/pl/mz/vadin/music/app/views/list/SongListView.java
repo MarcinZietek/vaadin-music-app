@@ -10,21 +10,16 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import pl.mz.vadin.music.app.data.domain.MusicGenre;
 import pl.mz.vadin.music.app.data.entity.Song;
 import pl.mz.vadin.music.app.data.service.MusicAppService;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @Route(value = "songs", layout = MainView.class)
 @PageTitle("List of Songs")
 public class SongListView extends VerticalLayout {
 
     Grid<Song> grid = new Grid<>(Song.class);
-
     TextField filterText = new TextField();
-    private final MusicAppService musicAppService;
+    MusicAppService musicAppService;
 
     SongForm songForm;
 
@@ -51,7 +46,6 @@ public class SongListView extends VerticalLayout {
 
     private void configureForm() {
         songForm = new SongForm(musicAppService.findAlbums());
-
         songForm.setWidth("25em");
         songForm.addListener(SongForm.SaveEventSong.class, this::saveSong);
         songForm.addListener(SongForm.DeleteEventSong.class, this::deleteSong);
@@ -101,6 +95,7 @@ public class SongListView extends VerticalLayout {
         } else {
             songForm.setSong(song);
             songForm.setVisible(true);
+            addClassName("editing");
         }
     }
 
