@@ -7,7 +7,6 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -21,11 +20,6 @@ public class Album extends AbstractEntity {
     private String region;
     @Enumerated(EnumType.STRING)
     private MusicGenre musicGenre;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "albums_tracks", joinColumns = @JoinColumn(name = "album_id"),
-            inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private Set<Song> songs;
 
     @ManyToOne
     private Publisher publisher;
@@ -65,13 +59,6 @@ public class Album extends AbstractEntity {
         this.musicGenre = musicGenre;
     }
 
-    public Set<Song> getSongs() {
-        return songs;
-    }
-
-    public void setSongs(Set<Song> songs) {
-        this.songs = songs;
-    }
 
     public Publisher getPublisher() {
         return publisher;

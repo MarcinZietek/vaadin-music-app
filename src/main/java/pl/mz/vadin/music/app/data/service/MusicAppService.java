@@ -10,7 +10,9 @@ import pl.mz.vadin.music.app.data.repository.ProducerRepository;
 import pl.mz.vadin.music.app.data.repository.PublisherRepository;
 import pl.mz.vadin.music.app.data.repository.SongRepository;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MusicAppService {
@@ -40,6 +42,10 @@ public class MusicAppService {
 
     public List<Album> findAlbums(){
         return albumRepository.findAll();
+    }
+
+    public List<Song> findAllById(UUID id){
+        return songRepository.findAllById(Collections.singleton(id));
     }
 
     public List<Album> findAllAlbums(String stringFilter) {

@@ -56,7 +56,7 @@ public class SongListView extends VerticalLayout {
         grid.addClassName("songs-grid");
         grid.setSizeFull();
         grid.setColumns("title", "duration");
-        grid.addColumn(song -> song.getAlbums().toString()).setHeader("Album");
+        grid.addColumn(song -> song.getAlbum().getRegion()).setHeader("Album Region");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
 
         grid.asSingleSelect().addValueChangeListener(event ->

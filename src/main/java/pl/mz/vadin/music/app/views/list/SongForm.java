@@ -24,7 +24,6 @@ import java.util.Set;
 public class SongForm extends FormLayout {
 
     private Song song;
-
     TextField title = new TextField("Song Title");
     TextField duration = new TextField("Song Duration");
     ComboBox<Album> album = new ComboBox<>("Album Name");
