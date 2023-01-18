@@ -44,10 +44,6 @@ public class MusicAppService {
         return albumRepository.findAll();
     }
 
-    public List<Song> findAllById(UUID id){
-        return songRepository.findAllById(Collections.singleton(id));
-    }
-
     public List<Album> findAllAlbums(String stringFilter) {
         if (stringFilter == null || stringFilter.isEmpty()) {
             return albumRepository.findAll();
