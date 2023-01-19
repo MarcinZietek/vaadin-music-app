@@ -7,6 +7,8 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -26,6 +28,9 @@ public class Album extends AbstractEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Performer> performerList = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "album" ,cascade = CascadeType.REMOVE)
+    private Set<Song> song;
 
     public String getTitle() {
         return title;
@@ -76,8 +81,17 @@ public class Album extends AbstractEntity {
         this.performerList = performerList;
     }
 
+    public Set<Song> getSong() {
+        return song;
+    }
+
+    public void setSong(Set<Song> song) {
+        this.song = song;
+    }
+
     @Override
     public String toString() {
         return title;
     }
+
 }

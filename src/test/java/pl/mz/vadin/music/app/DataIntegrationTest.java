@@ -110,7 +110,6 @@ public class DataIntegrationTest {
 
     @Test
     void testDeleteAllAlbums(){
-        songRepository.deleteAll();
         albumRepository.deleteAll();
         assertThat(albumRepository.findAll()).isEmpty();
     }

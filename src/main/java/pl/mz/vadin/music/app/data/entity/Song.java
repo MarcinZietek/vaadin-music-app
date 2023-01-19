@@ -1,10 +1,7 @@
 package pl.mz.vadin.music.app.data.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -19,7 +16,7 @@ public class Song extends AbstractEntity{
     @ManyToMany
     private List<Publisher> publisherList = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Album album;
 
     @Override
@@ -66,6 +63,5 @@ public class Song extends AbstractEntity{
     public void setAlbum(Album album) {
         this.album = album;
     }
-
 
 }
