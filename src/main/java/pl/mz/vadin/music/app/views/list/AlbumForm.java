@@ -6,6 +6,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -16,21 +17,18 @@ import com.vaadin.flow.shared.Registration;
 import pl.mz.vadin.music.app.data.domain.MusicGenre;
 import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.entity.Publisher;
-import com.vaadin.flow.component.datepicker.DatePicker;
 
 import java.util.List;
 
 public class AlbumForm extends FormLayout {
 
     private Album album;
-
     TextField title = new TextField("Album Title");
     TextField region = new TextField("Album Region");
     ComboBox<Publisher> publisher = new ComboBox<>("Album Publisher");
     ComboBox<MusicGenre> musicGenre = new ComboBox<>("Music Genre");
     DatePicker releasedDate = new DatePicker("Released Date");
     Binder<Album> albumBinder = new BeanValidationBinder<>(Album.class);
-
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");

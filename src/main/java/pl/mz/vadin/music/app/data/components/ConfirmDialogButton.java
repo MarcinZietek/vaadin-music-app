@@ -1,19 +1,17 @@
-package pl.mz.vadin.music.app.data.component;
+package pl.mz.vadin.music.app.data.components;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.router.Route;
 
-@Route("confirm-dialog-cancel-button")
-public class ConfirmDialogCancelButton extends Div {
+public class ConfirmDialogButton extends Dialog {
 
     private Span status;
 
-    public ConfirmDialogCancelButton() {
+    public ConfirmDialogButton() {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);

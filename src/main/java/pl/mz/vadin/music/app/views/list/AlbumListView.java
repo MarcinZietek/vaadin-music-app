@@ -10,6 +10,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import pl.mz.vadin.music.app.data.components.NotificationSuccess;
 import pl.mz.vadin.music.app.data.domain.MusicGenre;
 import pl.mz.vadin.music.app.data.entity.Album;
 import pl.mz.vadin.music.app.data.service.MusicAppService;
@@ -25,8 +26,8 @@ public class AlbumListView extends VerticalLayout {
     Grid<Album> grid = new Grid<>(Album.class);
     TextField filterText = new TextField();
     MusicAppService musicAppService;
-
     AlbumForm albumForm;
+    NotificationSuccess dialog = new NotificationSuccess();
 
     public AlbumListView(MusicAppService musicAppService) {
         this.musicAppService = musicAppService;
@@ -59,12 +60,14 @@ public class AlbumListView extends VerticalLayout {
 
     private void saveAlbum(AlbumForm.SaveEventAlbum event){
         musicAppService.saveAlbum(event.getAlbum());
+        dialog.AddAlbumNotificationSuccess();
         updateList();
         closeEditor();
     }
 
     private void deleteAlbum(AlbumForm.DeleteEventAlbum event){
         musicAppService.deleteAlbum(event.getAlbum());
+        dialog.DeleteAlbumNotificationSuccess();
         updateList();
         closeEditor();
     }

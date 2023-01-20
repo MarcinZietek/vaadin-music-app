@@ -10,6 +10,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import pl.mz.vadin.music.app.data.components.NotificationSuccess;
 import pl.mz.vadin.music.app.data.entity.Song;
 import pl.mz.vadin.music.app.data.service.MusicAppService;
 
@@ -20,8 +21,8 @@ public class SongListView extends VerticalLayout {
     Grid<Song> grid = new Grid<>(Song.class);
     TextField filterText = new TextField();
     MusicAppService musicAppService;
-
     SongForm songForm;
+    NotificationSuccess dialog = new NotificationSuccess();
 
     public SongListView(MusicAppService musicAppService) {
         this.musicAppService = musicAppService;
@@ -72,7 +73,6 @@ public class SongListView extends VerticalLayout {
 
         Button addAlbumButton = new Button("Add Song");
         addAlbumButton.addClickListener(click -> addSong());
-
         HorizontalLayout toolbar = new HorizontalLayout(filterText, addAlbumButton);
         toolbar.addClassName("toolbar");
         return toolbar;
@@ -80,12 +80,14 @@ public class SongListView extends VerticalLayout {
 
     private void saveSong(SongForm.SaveEventSong event){
         musicAppService.saveSong(event.getSong());
+        dialog.AddSongNotificationSuccess();
         updateList();
         closeEditor();
     }
 
     private void deleteSong(SongForm.DeleteEventSong event){
         musicAppService.deleteSong(event.getSong());
+        dialog.DeleteSongNotificationSuccess();
         updateList();
         closeEditor();
     }
